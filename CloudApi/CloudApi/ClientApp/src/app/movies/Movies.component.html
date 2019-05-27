@@ -1,4 +1,20 @@
 <p> List of Movies</p>
 <div class="example-container">
-    <input> 
+  <input>
+
+  <select [(ngModel)]="SelectedOption">
+    <option value={{option}} *ngFor="let option of Options">{{option}}</option>
+  </select>
+
+  <select [(ngModel)]="SelectedOrder">
+    <option value={{order}} *ngFor="let order of Order">{{order}}</option>
+  </select>
+
+  <select [(ngModel)]="CurrentPage">
+    <option value={{page}} *ngFor="let page of Pages">{{page}}</option>
+    </select>
 </div>
+
+<mdb-card>
+  hi
+  </mdb-card>
