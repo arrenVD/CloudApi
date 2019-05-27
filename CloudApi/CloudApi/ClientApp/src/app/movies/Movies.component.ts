@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, SimpleChange } from '@angular/core';
 import { MoviesService, IMovie, Result } from '../services/movies.service';
 
 @Component({
@@ -28,14 +28,15 @@ export class MoviesComponent implements OnInit
   Order: string[];
   SelectedOrder: string;
   SelectedOption: string;
-  MoviesList: Result[];
   SelectedYear: number = 0;
+
+  MoviesList: Result[];
 
   SearchMovies()
   {
     this.svc.getMoviesList(this.SelectedOption, this.SelectedOrder, this.CurrentPage, this.SelectedYear).subscribe((result) => {
       console.table(result);
-
+      this.MoviesList = result.results
     })
   }
 }

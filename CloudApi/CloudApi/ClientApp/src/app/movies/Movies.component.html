@@ -2,19 +2,33 @@
 <div class="example-container">
   <input>
 
-  <select [(ngModel)]="SelectedOption">
+  <select [(ngModel)]="SelectedOption" (ngModelChange)="SearchMovies()">
     <option value={{option}} *ngFor="let option of Options">{{option}}</option>
   </select>
 
-  <select [(ngModel)]="SelectedOrder">
+  <select [(ngModel)]="SelectedOrder" (ngModelChange)="SearchMovies()">
     <option value={{order}} *ngFor="let order of Order">{{order}}</option>
   </select>
 
-  <select [(ngModel)]="CurrentPage">
+  <select [(ngModel)]="CurrentPage" (ngModelChange)="SearchMovies()">
     <option value={{page}} *ngFor="let page of Pages">{{page}}</option>
     </select>
 </div>
-
-<mdb-card>
-  hi
-  </mdb-card>
+<br/>
+<br />
+<table>
+  <tr>
+    <th>#</th>
+    <th>Title</th>
+    <th>Average Vote</th>
+    <th>Release Date</th>
+    <th>Popularity</th>
+  </tr>
+  <tr *ngFor="let movie of MoviesList;let i=index">
+    <th>{{index}}</th>
+    <th>{{movie.title}}</th>
+    <th>{{movie.vote_average}}</th>
+    <th>{{movie.release_date}}</th>
+    <th>{{movie.popularity}}</th>
+  </tr>
+</table>
