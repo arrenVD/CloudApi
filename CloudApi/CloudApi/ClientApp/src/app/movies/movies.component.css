@@ -15,7 +15,7 @@ td, th {
 tr:nth-child(even) {
   background-color: #dddddd;
 }
-button, input[type="submit"], input[type="reset"] {
+.btn{
   background: none;
   color: inherit;
   border: none;

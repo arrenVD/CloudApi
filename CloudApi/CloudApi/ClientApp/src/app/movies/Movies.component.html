@@ -1,25 +1,34 @@
 <p> List of Movies</p>
 <div class="example-container">
-  <input>
+  <label>Search: </label>
+  <input [(ngModel)]="CurrentKeyWord" placeholder="Search on keywords,year" style="width: 500px;">
+  <button (click)="SearchMovies()"> SEARCH</button>
+  <br />
+  <label>Show: </label>
+  <select [(ngModel)]="CurrentSelection" (ngModelChange)="ChangeSelection()">
+    <option value={{selection}} *ngFor="let selection of Selections">{{selection}}</option>
+  </select>
+
+  <label>Page: </label>
   <select [(ngModel)]="CurrentPage" (ngModelChange)="SearchMovies()">
     <option value={{page}} *ngFor="let page of Pages">{{page}}</option>
   </select>
 </div>
-<br/>
+<br />
 <br />
 <table>
   <tr>
-    <th><button (click)="ChangeOrder()">#</button></th>
-    <th><button (click)="SortOnPopularity()">Popularity</button></th>
-    <th><button (click)="SortOnTitle()">Title </button></th>
-    <th><button (click)="SortOnVote()">Average Vote</button></th>
-    <th> <button (click)="SortOnRelease()">Release Date</button></th>
+    <th><button class="btn" (click)="ChangeOrder()">#</button></th>
+    <th><button class="btn" (click)="SortOnPopularity()">Popularity</button></th>
+    <th><button class="btn" (click)="SortOnTitle()">Title </button></th>
+    <th><button class="btn" (click)="SortOnVote()">Average Vote</button></th>
+    <th> <button class="btn" (click)="SortOnRelease()">Release Date</button></th>
   </tr>
   <tr *ngFor="let movie of MoviesList;let i=index">
-    <th><button (click)="GetMovie(movie)">{{i + 1 + (CurrentPage-1)*20 }}</button></th>
-    <th><button (click)="GetMovie(movie)">{{movie.popularity}}</button></th>
-    <th><button (click)="GetMovie(movie)">{{movie.title}}</button></th>
-    <th><button (click)="GetMovie(movie)">{{movie.vote_average}}</button></th>
-    <th><button (click)="GetMovie(movie)">{{movie.release_date}}</button></th>
+    <th><button  class="btn" routerLink="/movies/{{movie.id}}" (click)="GetMovie(movie)">{{i + 1 + (CurrentPage-1)*20 }}</button></th>
+    <th><button  class="btn" routerLink="/movies/{{movie.id}}" (click)="GetMovie(movie)">{{movie.popularity}}</button></th>
+    <th><button  class="btn" routerLink="/movies/{{movie.id}}" (click)="GetMovie(movie)">{{movie.title}}</button></th>
+    <th><button  class="btn" routerLink="/movies/{{movie.id}}" (click)="GetMovie(movie)">{{movie.vote_average}}</button></th>
+    <th><button  class="btn" routerLink="/movies/{{movie.id}}" (click)="GetMovie(movie)">{{movie.release_date}}</button></th>
   </tr>
 </table>

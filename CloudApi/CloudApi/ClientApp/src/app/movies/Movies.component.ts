@@ -31,10 +31,38 @@ export class MoviesComponent implements OnInit
   ItemsPerPage: number = 20
   MoviesList: Result[];
   TotalPages: number = 1;
-  numerator: number = 0;
   TotalItems: number = 0;
+  CurrentSelection: string = "All";
+  Selections: string[] = ["Upcoming", "Now Playing", "All"]
+  PreviousSelection: string = "All"
+  CurrentKeyWord: string = "";
   SearchMovies()
   {
+    if (this.CurrentSelection == "Upcoming") {
+      this.svc.GetUpcoming(this.CurrentPage).subscribe((result => {
+        this.MoviesList = result.results
+        this.TotalItems = result.total_results;
+        if (result.total_pages < 500) {
+          this.Pages = Array(result.total_pages).fill(1).map((x, i) => i + 1)
+        }
+        else {
+          this.Pages = Array(500).fill(1).map((x, i) => i + 1)
+        }
+      }))
+    }
+    else if (this.CurrentSelection == "Now Playing") {
+      this.svc.GetLatest(this.CurrentPage).subscribe((result => {
+        this.MoviesList = result.results
+        this.TotalItems = result.total_results;
+        if (result.total_pages < 500) {
+          this.Pages = Array(result.total_pages).fill(1).map((x, i) => i + 1)
+        }
+        else {
+          this.Pages = Array(500).fill(1).map((x, i) => i + 1)
+        }
+      }))
+    }
+    else {
       this.svc.getMoviesList(this.SelectedOption, this.SelectedOrder, this.CurrentPage, this.SelectedYear).subscribe((result) => {
         console.table(result);
         this.MoviesList = result.results
@@ -46,14 +74,19 @@ export class MoviesComponent implements OnInit
           this.Pages = Array(500).fill(1).map((x, i) => i + 1)
         }
       })
+    }
+
   }
 
 
   GetMovie(movie: Result)
   {
-    
+    this.dataSvc.Movie = movie;
   }
-
+  ChangeSelection() {
+    this.CurrentPage = 1
+    this.SearchMovies()
+  }
   //SORTEER FUNCTIONALITEIT
   // druk op top van tabel om te kiezen waar op te sorteren
   //druk een 2e keer op hetzelfde -> sorteerorde veranderen
@@ -101,7 +134,6 @@ export class MoviesComponent implements OnInit
   ChangeOrder() {
     if (this.SelectedOrder == "asc") {
       this.SelectedOrder = "desc";
-      this.numerator = 0
     }
     else {
       this.SelectedOrder = "asc"

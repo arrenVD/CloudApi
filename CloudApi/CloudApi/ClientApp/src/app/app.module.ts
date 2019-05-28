@@ -35,7 +35,7 @@ import { DataService } from './services/data.service';
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'movies', component: MoviesComponent },
-      { path: 'movie', component: MovieComponent },
+      { path: 'movies/:id', component: MovieComponent },
     ])
   ],
   providers: [

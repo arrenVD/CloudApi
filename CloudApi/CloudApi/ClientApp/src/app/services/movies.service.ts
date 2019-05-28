@@ -19,7 +19,13 @@ export class MoviesService {
   }
   GetMovie(ID: Number)
   {
-    return this.http.get<IMovie>(`${this.movieDB_URL}/${this.APIVersion}/movie/${ID}?api_key=${this.APIKey}`);
+    return this.http.get<Result>(`${this.movieDB_URL}/${this.APIVersion}/movie/${ID}?api_key=${this.APIKey}`);
+  }
+  GetUpcoming(Page: number) {
+    return this.http.get<IMovie>(`${this.movieDB_URL}/${this.APIVersion}/movie/upcoming?api_key=${this.APIKey}&language=en-US&page=${Page}`);
+  }
+  GetLatest(Page: number) {
+    return this.http.get<IMovie>(`${this.movieDB_URL}/${this.APIVersion}/movie/now_playing?api_key=${this.APIKey}&language=en-US&page=${Page}`);
   }
 }
 
