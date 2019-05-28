@@ -21,6 +21,7 @@ namespace CloudApi.Controllers
         {
             return AnimalList;
         }
+        [HttpPost]
         public IActionResult CreateAnimal([FromBody] Animal newAnimal)
         {
             //Dierenvriend!
@@ -37,7 +38,6 @@ namespace CloudApi.Controllers
             AnimalList.Add(newAnimal);
             return Created("", newAnimal);
         }
-
         [Route("{id}")]
         [HttpGet]
         public ActionResult<Animal> GetAnimal(int id)
