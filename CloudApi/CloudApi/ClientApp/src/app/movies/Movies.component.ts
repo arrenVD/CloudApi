@@ -1,5 +1,6 @@
 import { Component, OnInit, SimpleChange } from '@angular/core';
 import { MoviesService, IMovie, Result } from '../services/movies.service';
+import { DataService } from '../services/data.service';
 
 @Component({
   selector: 'app-movies',
@@ -8,10 +9,10 @@ import { MoviesService, IMovie, Result } from '../services/movies.service';
 })
 export class MoviesComponent implements OnInit
 {
-  constructor(private svc: MoviesService)
+  constructor(private svc: MoviesService, private dataSvc: DataService)
   {
     this.SelectedOption = "popularity";
-    this.SelectedOrder = "asc";
+    this.SelectedOrder = "desc";
     this.Pages = Array(100).fill(1).map((x, i) => i)
     this.CurrentPage = 1;
   }
@@ -27,21 +28,37 @@ export class MoviesComponent implements OnInit
   SelectedOrder: string;
   SelectedOption: string;
   SelectedYear: number = 0;
-
+  ItemsPerPage: number = 20
   MoviesList: Result[];
-
+  TotalPages: number = 1;
+  numerator: number = 0;
+  TotalItems: number = 0;
   SearchMovies()
   {
-    this.svc.getMoviesList(this.SelectedOption, this.SelectedOrder, this.CurrentPage, this.SelectedYear).subscribe((result) => {
-      console.table(result);
-      this.MoviesList = result.results
-    })
+      this.svc.getMoviesList(this.SelectedOption, this.SelectedOrder, this.CurrentPage, this.SelectedYear).subscribe((result) => {
+        console.table(result);
+        this.MoviesList = result.results
+        this.TotalItems = result.total_results;
+        if (result.total_pages < 500) {
+          this.Pages = Array(result.total_pages).fill(1).map((x, i) => i + 1)
+        }
+        else {
+          this.Pages = Array(500).fill(1).map((x, i) => i + 1)
+        }
+      })
+  }
+
+
+  GetMovie(movie: Result)
+  {
+    
   }
 
   //SORTEER FUNCTIONALITEIT
   // druk op top van tabel om te kiezen waar op te sorteren
   //druk een 2e keer op hetzelfde -> sorteerorde veranderen
   //nummber verandert ook sorteerorder
+  //Titel doet raar... is ook original_title, title was er niet
   SortOnVote()
   {
     if (this.SelectedOption == "vote_average") {
@@ -79,9 +96,12 @@ export class MoviesComponent implements OnInit
     }
     this.SearchMovies();
   }
+
+  //TODO,  laten omdraaien wanneer nodig.
   ChangeOrder() {
     if (this.SelectedOrder == "asc") {
       this.SelectedOrder = "desc";
+      this.numerator = 0
     }
     else {
       this.SelectedOrder = "asc"
@@ -89,6 +109,4 @@ export class MoviesComponent implements OnInit
     this.SearchMovies();
   }
 }
-
-
 

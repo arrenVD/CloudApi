@@ -3,7 +3,7 @@
   <input>
   <select [(ngModel)]="CurrentPage" (ngModelChange)="SearchMovies()">
     <option value={{page}} *ngFor="let page of Pages">{{page}}</option>
-    </select>
+  </select>
 </div>
 <br/>
 <br />
@@ -16,10 +16,10 @@
     <th> <button (click)="SortOnRelease()">Release Date</button></th>
   </tr>
   <tr *ngFor="let movie of MoviesList;let i=index">
-    <th>{{i + 1}}</th>
-    <th>{{movie.popularity}}</th>
-    <th>{{movie.title}}</th>
-    <th>{{movie.vote_average}}</th>
-    <th>{{movie.release_date}}</th>
+    <th><button (click)="GetMovie(movie)">{{i + 1 + (CurrentPage-1)*20 }}</button></th>
+    <th><button (click)="GetMovie(movie)">{{movie.popularity}}</button></th>
+    <th><button (click)="GetMovie(movie)">{{movie.title}}</button></th>
+    <th><button (click)="GetMovie(movie)">{{movie.vote_average}}</button></th>
+    <th><button (click)="GetMovie(movie)">{{movie.release_date}}</button></th>
   </tr>
 </table>
