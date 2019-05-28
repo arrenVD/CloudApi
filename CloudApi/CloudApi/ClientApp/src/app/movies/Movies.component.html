@@ -1,15 +1,6 @@
 <p> List of Movies</p>
 <div class="example-container">
   <input>
-
-  <select [(ngModel)]="SelectedOption" (ngModelChange)="SearchMovies()">
-    <option value={{option}} *ngFor="let option of Options">{{option}}</option>
-  </select>
-
-  <select [(ngModel)]="SelectedOrder" (ngModelChange)="SearchMovies()">
-    <option value={{order}} *ngFor="let order of Order">{{order}}</option>
-  </select>
-
   <select [(ngModel)]="CurrentPage" (ngModelChange)="SearchMovies()">
     <option value={{page}} *ngFor="let page of Pages">{{page}}</option>
     </select>
@@ -18,17 +9,17 @@
 <br />
 <table>
   <tr>
-    <th>#</th>
-    <th>Title</th>
-    <th>Average Vote</th>
-    <th>Release Date</th>
-    <th>Popularity</th>
+    <th><button (click)="ChangeOrder()">#</button></th>
+    <th><button (click)="SortOnPopularity()">Popularity</button></th>
+    <th><button (click)="SortOnTitle()">Title </button></th>
+    <th><button (click)="SortOnVote()">Average Vote</button></th>
+    <th> <button (click)="SortOnRelease()">Release Date</button></th>
   </tr>
   <tr *ngFor="let movie of MoviesList;let i=index">
-    <th>{{index}}</th>
+    <th>{{i + 1}}</th>
+    <th>{{movie.popularity}}</th>
     <th>{{movie.title}}</th>
     <th>{{movie.vote_average}}</th>
     <th>{{movie.release_date}}</th>
-    <th>{{movie.popularity}}</th>
   </tr>
 </table>

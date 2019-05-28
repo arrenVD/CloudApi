@@ -13,21 +13,7 @@ export class MoviesService {
   private movieDB_URL = "https://api.themoviedb.org";
 
   getMoviesList(SortBy: string, Order: string, Page: Number, Year: Number) {
-    if (SortBy == "Vote average") {
-      SortBy = "vote_average";
-    }
-    else if (SortBy == "Release fate") {
-      SortBy = "release_date"
-    }
-    else if (SortBy == "Popularity") {
-      SortBy = "popularity"
-    }
-    if (Order == "Ascending") {
-      Order = "asc";
-    }
-    else if (Order == "Descending") {
-      Order = "desc"
-    }
+
     console.log(`${this.movieDB_URL}/${this.APIVersion}/discover/movie?api_key=${this.APIKey}&language=en-US&sort_by=${SortBy}.${Order}&include_adult=false&include_video=false&page=${Page}&primary_release_year=${Year}`)
     return this.http.get<IMovie>(`${this.movieDB_URL}/${this.APIVersion}/discover/movie?api_key=${this.APIKey}&language=en-US&sort_by=${SortBy}.${Order}&include_adult=false&include_video=false&page=${Page}&primary_release_year=${Year}`);
   }
