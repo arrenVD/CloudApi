@@ -1,2 +1,13 @@
-
-{{Movie.id}}
+<div>
+  <img src="{{url_imgRoot}}{{Movie.poster_path}}">
+</div>
+<div>
+  <b>{{Movie.title}}</b>                        Rating: {{Movie.vote_average}}/10<br />
+  <i>{{Movie.release_date}}</i><br />
+  Genres: 
+  <p *ngFor="let genre of Genres" style="display:inline-block;">
+    {{genre.name}}
+  </p>
+  <br />
+  {{Movie.title}}<br />
+</div>

@@ -2,7 +2,7 @@
 <div class="example-container">
   <label>Search: </label>
   <input [(ngModel)]="CurrentKeyWord" placeholder="Search on keywords,year" style="width: 500px;">
-  <button (click)="SearchMovies()"> SEARCH</button>
+  <button (click)="SearchInput()"> SEARCH</button>
   <br />
   <label>Show: </label>
   <select [(ngModel)]="CurrentSelection" (ngModelChange)="ChangeSelection()">
