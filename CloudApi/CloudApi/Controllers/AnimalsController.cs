@@ -5,62 +5,85 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using CloudApi.Model;
-using System.Linq;
+using Microsoft.EntityFrameworkCore;
+
 namespace CloudApi.Controllers
 {
-    // [Route("api/[controller]")]
-    // [ApiController]
-
     [Route("api/v1/animals")]
+    [ApiController]
     public class AnimalsController : Controller
     {
-        static List<Animal> AnimalList = new List<Animal>();
-
-        [HttpGet]
-        public List<Animal> GetAnimals()
+        private readonly LibraryContext context;
+        public AnimalsController(LibraryContext context)
         {
-            return AnimalList;
+            this.context = context;
+        }
+        [HttpGet]
+        public List<Animal> GetAllAnimals(string conservationStatus, string order, int? page, int length = 2)
+        {
+            IQueryable<Animal> query = context.Animals;
+
+            if (!string.IsNullOrWhiteSpace(conservationStatus))
+                query = query.Where(d => d.ConservationStatus == conservationStatus);
+            if (!string.IsNullOrWhiteSpace(order))
+                query = query.Where(d => d.Order == order);
+            return query.ToList();
         }
         [HttpPost]
         public IActionResult CreateAnimal([FromBody] Animal newAnimal)
         {
-            //Dierenvriend!
-            bool isEmpty = !AnimalList.Any();
-            if (isEmpty)
-            {
-                newAnimal.Id = 1;
-            }
-            else
-            {
-                var LastId = AnimalList.Max(a => a.Id);
-                newAnimal.Id = LastId + 1;
-            }
-            AnimalList.Add(newAnimal);
+            context.Animals.Add(newAnimal);
+            context.SaveChanges();
             return Created("", newAnimal);
         }
         [Route("{id}")]
         [HttpGet]
-        public ActionResult<Animal> GetAnimal(int id)
+        public IActionResult GetAnimal(int id)
         {
-            var animal = AnimalList.FirstOrDefault(a => a.Id == id);
-                  if (animal == null)
-            {
-                   return NotFound();
-            }
-              return animal;
-        }   
+            //var animal = context.Animals.(id);
+            //if (animal == null) { return NotFound(); } else { return Ok(animal); }
+            var animal = context.Animals.Include(d => d.Family).SingleOrDefault(d => d.Id == id);
+            if (animal == null) { return NotFound(); } else { return Ok(animal); }
+        }
+        [Route("{id}/family")]
+        [HttpGet]
+        public ActionResult<Animal> GetAnimalFamily(int id)
+        {
+            //var animal = context.Animals.(id);
+            //if (animal == null) { return NotFound(); } else { return Ok(animal); }
+            var animal = context.Animals.Include(d => d.Family).SingleOrDefault(d => d.Id == id);
+            if (animal == null) { return NotFound(); } else { return Ok(animal.Family); }
+        }
         [Route("{id}")]
         [HttpDelete]
         public IActionResult DeleteAnimal(int id)
         {
-            //Dierenbeul!
-            var animal = AnimalList.FirstOrDefault(a => a.Id == id);
+            var animal = context.Animals.Find(id);
             if (animal == null)
+            {
                 return NotFound();
-
-            AnimalList.Remove(animal);
-            return NoContent();
+            }
+            else
+            {
+                context.Animals.Remove(animal);
+                context.SaveChanges();
+                return NoContent();
+            }                      
+        }
+        [HttpPut]
+        public IActionResult UpdateAnimal([FromBody] Animal updateAnimal)
+        {
+            var OrgAnimal = context.Animals.Find(updateAnimal.Id);
+            if(OrgAnimal == null)
+            {
+                return NotFound();
+            }
+            OrgAnimal.Name = updateAnimal.Name;
+            OrgAnimal.ConservationStatus = updateAnimal.ConservationStatus;
+            OrgAnimal.Description = updateAnimal.Description;
+            OrgAnimal.ImageURL = updateAnimal.ImageURL;
+            OrgAnimal.LifeSpan = updateAnimal.LifeSpan;
+            return null;
         }
     }
 }
-

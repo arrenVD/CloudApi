@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using CloudApi;
+using CloudApi.Model;
+using Microsoft.EntityFrameworkCore;
 
 namespace CloudApi
 {
@@ -20,8 +23,13 @@ namespace CloudApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<LibraryContext>(
+               options => options.UseSqlServer(
+                   Configuration.GetConnectionString("DefaultConnection")
+                   )
+             );
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-
+            services.AddCors();
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
@@ -30,7 +38,7 @@ namespace CloudApi
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env,LibraryContext libContext )
         {
             if (env.IsDevelopment())
             {
@@ -65,6 +73,8 @@ namespace CloudApi
                     spa.UseAngularCliServer(npmScript: "start");
                 }
             });
+
+            DBInitializer.Initialize(libContext);
         }
     }
 }

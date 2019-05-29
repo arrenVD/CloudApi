@@ -11,9 +11,13 @@ namespace CloudApi.Model
         public string Name { get; set; }
         public Family Family { get; set; }
         public string Description { get; set; }
-        public int LifeSpan { get; set; }
+        public double LifeSpan { get; set; }
     
         public string ConservationStatus {get;set;}
+        public string ImageURL { get; set; }
+        public int FamilyId { get; set; }
+
+        public string Order { get; set; }
     }
 
 
