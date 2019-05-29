@@ -19,7 +19,7 @@ namespace CloudApi.Controllers
             this.context = context;
         }
         [HttpGet]
-        public List<Animal> GetAllAnimals(string conservationStatus, string order, int? page, int length = 2)
+        public List<Animal> GetAllAnimals(string conservationStatus, string order,string sort, int length = 2, string dir = "asc" ,int? page = 0)
         {
             IQueryable<Animal> query = context.Animals;
 
@@ -27,6 +27,30 @@ namespace CloudApi.Controllers
                 query = query.Where(d => d.ConservationStatus == conservationStatus);
             if (!string.IsNullOrWhiteSpace(order))
                 query = query.Where(d => d.Order == order);
+
+            if (!string.IsNullOrWhiteSpace(sort))
+            {
+                switch(sort)
+                {
+                    case "conservationstatus":
+                        if (dir == "asc")
+                            query = query.OrderBy(d => d.ConservationStatus);
+                        else if (dir == "desc")
+                            query = query.OrderByDescending(d => d.ConservationStatus);
+                            break;
+                    case "order":
+                        if (dir == "asc")
+                            query = query.OrderBy(d => d.Order);
+                        else if (dir == "desc")
+                            query = query.OrderByDescending(d => d.Order);
+                        break;
+                }
+            }
+                if (page.HasValue)
+                query = query.Skip(page.Value * length);
+            query = query.Take(length);
+
+
             return query.ToList();
         }
         [HttpPost]
@@ -78,12 +102,16 @@ namespace CloudApi.Controllers
             {
                 return NotFound();
             }
-            OrgAnimal.Name = updateAnimal.Name;
-            OrgAnimal.ConservationStatus = updateAnimal.ConservationStatus;
-            OrgAnimal.Description = updateAnimal.Description;
-            OrgAnimal.ImageURL = updateAnimal.ImageURL;
-            OrgAnimal.LifeSpan = updateAnimal.LifeSpan;
-            return null;
+            else
+            {
+                OrgAnimal.Name = updateAnimal.Name;
+                OrgAnimal.ConservationStatus = updateAnimal.ConservationStatus;
+                OrgAnimal.Description = updateAnimal.Description;
+                OrgAnimal.ImageURL = updateAnimal.ImageURL;
+                OrgAnimal.LifeSpan = updateAnimal.LifeSpan;
+                context.SaveChanges();
+                return Ok(OrgAnimal);
+            }
         }
     }
 }

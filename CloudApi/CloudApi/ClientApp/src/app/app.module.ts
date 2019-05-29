@@ -14,6 +14,8 @@ import { MoviesComponent } from './movies/Movies.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MovieComponent } from './movie/movie.component';
 import { DataService } from './services/data.service';
+import { AnimalsListComponent } from './animals-list/animals-list.component';
+import { AnimalComponent } from './animal/animal.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +26,8 @@ import { DataService } from './services/data.service';
     FetchDataComponent,
     MoviesComponent,
     MovieComponent,
+    AnimalsListComponent,
+    AnimalComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -36,6 +40,10 @@ import { DataService } from './services/data.service';
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'movies', component: MoviesComponent },
       { path: 'movies/:id', component: MovieComponent },
+      { path: 'animals/', component: AnimalsListComponent },
+      { path: 'animals/:id', component: AnimalComponent },
+      //{ path: 'families/', component: MovieComponent },
+     // { path: 'families/:id', component: MovieComponent },
     ])
   ],
   providers: [

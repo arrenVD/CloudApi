@@ -161,6 +161,9 @@ namespace CloudApi.Model
                 context.Animals.Add(animal3);
                 context.Animals.Add(animal4);
                 context.Animals.Add(animal5);
+                context.Animals.Add(animal6);
+                context.Animals.Add(animal7);
+                context.Animals.Add(animal8);
                 context.Families.Add(family);
                 context.Families.Add(family2);
                 context.SaveChanges();

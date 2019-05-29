@@ -62,9 +62,14 @@ namespace CloudApi.Controllers
             {
                 return NotFound();
             }
-            OrgFamily.Name = updateFamily.Name;
-            OrgFamily.Description = updateFamily.Description;
-            return null;
+            else
+            {
+                OrgFamily.Name = updateFamily.Name;
+                OrgFamily.Description = updateFamily.Description;
+                context.SaveChanges();
+                return Ok(OrgFamily);
+            }
+
         }
         [Route("{id}/animal")]
         [HttpGet]
