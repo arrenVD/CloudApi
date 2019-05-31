@@ -19,14 +19,18 @@ namespace CloudApi.Controllers
             this.context = context;
         }
         [HttpGet]
-        public Array GetAllFamilies()
+        public Family GetAllFamilies(string name)
         //public List<Family> GetAllFamilies()
         {
-            return context.Families.ToArray();
+            IQueryable<Family> query = context.Families;
+            if (!string.IsNullOrWhiteSpace(name))
+                query = query.Where(d => d.Name == name);
+            return query.SingleOrDefault(d => d.Name == name);
         }
         [HttpPost]
         public IActionResult CreateFamily([FromBody] Family newFamily)
         {
+
             context.Families.Add(newFamily);
             context.SaveChanges();
             return Created("", newFamily);

@@ -44,8 +44,8 @@ import { CreateAnimalComponent } from './create-animal/create-animal.component';
       { path: 'movies', component: movieListComponent },
       { path: 'movies/:id', component: MovieComponent },
       { path: 'animals', component: AnimalsListComponent },
+      { path: 'animal/create', component: CreateAnimalComponent },
       { path: 'animal/:id', component: AnimalComponent },
-      { path: 'animals/create', component: AnimalComponent },
       //{ path: 'families/', component: MovieComponent },
      // { path: 'families/:id', component: MovieComponent },
     ])

@@ -8,7 +8,7 @@ namespace CloudApi.Model
 {
     public class Animal
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
 
         [Required]
         [StringLength(30)]
@@ -20,7 +20,7 @@ namespace CloudApi.Model
     
         public string ConservationStatus {get;set;}
         public string ImageURL { get; set; }
-        public int FamilyId { get; set; }
+        public int? FamilyId { get; set; }
 
         public string Order { get; set; }
     }

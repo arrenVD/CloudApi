@@ -12,4 +12,8 @@ namespace CloudApi.Model
         public Animal[] Animal;
         public int AmountOfPages = 2;
     }
+    public class FamilyList
+    {
+        public Family[] Family;
+    }
 }

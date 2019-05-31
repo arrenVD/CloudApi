@@ -15,32 +15,32 @@
   </select>
   <br />
 </div>
-  <br />
-  <br />
-  <table>
-    <tr>
-      <th><button class="btn"> </button></th>
-      <th><button class="btn" (click)="ChangeOrder()">#</button></th>
-      <th><button class="btn" (click)="SortOnName()">Name</button></th>
-      <th><button class="btn" (click)="SortOnFamily()">Family </button></th>
-      <th><button class="btn" (click)="SortOnOrder()">Order </button></th>
-      <th><button class="btn" (click)="SortOnConservation()">Conservation Status </button></th>
-    </tr>
-    <tr *ngFor="let animal of AnimalList;let i=index">
-      <th><button class="btn" routerLink="/animal/{{animal.id}}" (click)="GetAnimal(animal)"><img src="{{IMG_URL + animal.imageURL}}" /></button></th>
-      <th><button class="btn" routerLink="/animal/{{animal.id}}" (click)="GetAnimal(animal)">{{i + 1 + (CurrentPage)*5 }}</button></th>
-      <th><button class="btn" routerLink="/animal/{{animal.id}}" (click)="GetAnimal(animal)">{{animal.name}}</button></th>
-      <th><button class="btn" routerLink="/animal/{{animal.id}}" (click)="GetAnimal(animal)">{{animal.family.name}}</button></th>
-      <th><button class="btn" routerLink="/animal/{{animal.id}}" (click)="GetAnimal(animal)">{{animal.order}}</button></th>
-      <th><button class="btn" routerLink="/animal/{{animal.id}}" (click)="GetAnimal(animal)">{{animal.conservationStatus}}</button></th>
-    </tr>
-    <tr>
-      <th>
-        <button class="btn" routerLink="/animal/create">
-            Add Animal
-        </button>
-      </th>
+<br />
+<br />
+<button class="btn" routerLink="/animal/create">
+  Add Animal
+</button>
+<table>
+  <tr>
+    <th><button class="btn"> </button></th>
+    <th><button class="btn" (click)="ChangeOrder()">#</button></th>
+    <th><button class="btn" (click)="SortOnName()">Name</button></th>
+    <th><button class="btn" (click)="SortOnFamily()">Family </button></th>
+    <th><button class="btn" (click)="SortOnOrder()">Order </button></th>
+    <th><button class="btn" (click)="SortOnConservation()">Conservation Status </button></th>
+  </tr>
+  <tr *ngFor="let animal of AnimalList;let i=index">
+    <th><button class="btn" routerLink="/animal/{{animal.id}}" (click)="GetAnimal(animal)"><img src="{{IMG_URL + animal.imageURL}}" /></button></th>
+    <th><button class="btn" routerLink="/animal/{{animal.id}}" (click)="GetAnimal(animal)">{{i + 1 + (CurrentPage)*5 }}</button></th>
+    <th><button class="btn" routerLink="/animal/{{animal.id}}" (click)="GetAnimal(animal)">{{animal.name}}</button></th>
+    <th><button class="btn" routerLink="/animal/{{animal.id}}" (click)="GetAnimal(animal)">{{animal.family.name}}</button></th>
+    <th><button class="btn" routerLink="/animal/{{animal.id}}" (click)="GetAnimal(animal)">{{animal.order}}</button></th>
+    <th><button class="btn" routerLink="/animal/{{animal.id}}" (click)="GetAnimal(animal)">{{animal.conservationStatus}}</button></th>
+  </tr>
+  <tr>
+    <th>
+    </th>
 
-    </tr>
-  </table>
-      
+  </tr>
+</table>
+

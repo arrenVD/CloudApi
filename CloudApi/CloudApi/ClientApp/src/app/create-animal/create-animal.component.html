@@ -1,17 +1,20 @@
-Name:<br />
-<input type="submit" value="Submit">
-Family:
-<br />
-<input type="submit" value="Submit">
-Life Span:<br />
-<input type="submit" value="Submit">
-Order:<br />
-<input type="submit" value="Submit">
-Conservation Status:
-<select [(ngModel)]="CurrentOrder" (ngModelChange)="ChangeSelection()">
-  <option value={{selection}} *ngFor="let selection of SelectionsOrder">{{selection}}</option>
-</select>
-Description:
-<textarea rows="20" cols="100">
 
-</textarea>
+<div class="container">
+  Name:
+  <input [(ngModel)]="name" ><br />
+  Life Span:
+  <input [(ngModel)]="lifespan"><br />
+  Order:
+  <input [(ngModel)]="order"><br />
+  Conservation Status:
+  <input [(ngModel)]="conservationStatus" ><br />
+  Image url (https://i.imgur.com/ as root):
+  <input [(ngModel)]="imgurl" ><br />
+  Family:
+  <input [(ngModel)]="familyName" (ngModelChange)="UpdateAnimal()" ><br />
+  Description:
+<textarea rows="15" cols="75" [(ngModel)]="description" (ngModelChange)="UpdateAnimal()" >
+
+</textarea> <br />
+  <button (click)="CreateAnimal()" [routerLink]='["/animals/"]'> Create </button>
+</div>

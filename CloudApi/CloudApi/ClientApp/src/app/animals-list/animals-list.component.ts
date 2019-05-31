@@ -31,9 +31,10 @@ export class AnimalsListComponent implements OnInit {
   CurrentOrder : string = "All"
   AnimalList: IAnimal[];
   Animal: IAnimal;
+  //TODO ADD orders & family to list and dynamically add created orders/families
   SelectionsFamily: string[] = ["All", "Felidae", "Canidae", "Elephantidae"]
   SelectionsOrder: string[] = ["All", "Carnivora", "Proboscidea"]
-  SelectionsStatus: string[] = ["All", "Domesticated", "Not Endangered", "Endangered","Vulnerable"]
+  SelectionsStatus: string[] = ["All", "Domesticated", "Not Endangered", "Endangered","Vulnerable", "Least Concern", "Critically Endangered","Extinct", "Extremely Endangered"]
   Pages: number[];
   TotalPages: number;
   amountOfAnimals: number;

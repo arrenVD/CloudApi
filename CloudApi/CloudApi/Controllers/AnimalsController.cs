@@ -20,7 +20,7 @@ namespace CloudApi.Controllers
         }
         [HttpGet]
         //public List<Animal> GetAllAnimals(string conservationStatus, string order,string family ,string sort, int length = 5 , string dir = "asc" ,int? page = 0)
-        public AnimalList GetAllAnimals(string conservationStatus, string order,string family ,string sort, int length, string dir = "asc" ,int? page = 0)
+        public AnimalList GetAllAnimals(string conservationStatus, string order, string family, string sort, int length, string dir = "asc", int? page = 0)
         {
             if (length == 0)
             {
@@ -42,14 +42,14 @@ namespace CloudApi.Controllers
 
             if (!string.IsNullOrWhiteSpace(sort))
             {
-                switch(sort)
+                switch (sort)
                 {
                     case "conservationstatus":
                         if (dir == "asc")
                             query = query.OrderBy(d => d.ConservationStatus);
                         else if (dir == "desc")
                             query = query.OrderByDescending(d => d.ConservationStatus);
-                            break;
+                        break;
                     case "order":
                         if (dir == "asc")
                             query = query.OrderBy(d => d.Order);
@@ -70,10 +70,10 @@ namespace CloudApi.Controllers
                         break;
                 }
             }
-                if (page.HasValue)
+            if (page.HasValue)
                 query = query.Skip(page.Value * length);
-            query = query.Take(length);    
-            
+            query = query.Take(length);
+
             Animal.Animal = query.ToArray();
             return Animal;
             //return query.ToList();
@@ -83,6 +83,40 @@ namespace CloudApi.Controllers
         [HttpPost]
         public IActionResult CreateAnimal([FromBody] Animal newAnimal)
         {
+            Animal tempAnimal = new Animal();
+            /*Family tempFamily = new Family();
+            Animal tempAnimal = new Animal();
+            tempAnimal.ConservationStatus = newAnimal.ConservationStatus;
+            tempAnimal.Description = newAnimal.Description;
+            tempAnimal.ImageURL = newAnimal.ImageURL;
+            tempAnimal.LifeSpan = newAnimal.LifeSpan;
+            tempAnimal.Name = newAnimal.Name;
+            tempAnimal.Order = newAnimal.Order;
+            tempFamily.Description = newAnimal.Family.Description;
+            tempFamily.Name = newAnimal.Family.Name;
+            tempAnimal.Family = tempFamily;
+            context.Animals.Add(tempAnimal);
+            context.SaveChanges();
+            return Created("", tempAnimal);*/
+            string tempname = newAnimal.Family.Name;
+
+
+                newAnimal.Family = context.Families.SingleOrDefault(d => d.Name == newAnimal.Family.Name);
+                if(newAnimal.Family == null)
+            {
+
+                var family = new Family()
+                {
+                    Name = tempname,
+                    Description = "",
+
+                };
+                context.Families.Add(family);
+                context.SaveChanges();
+                newAnimal.Family = context.Families.SingleOrDefault(d => d.Name == tempname);
+                System.Diagnostics.Debug.WriteLine("Created: "+ newAnimal.Family.Name);
+            }
+
             context.Animals.Add(newAnimal);
             context.SaveChanges();
             return Created("", newAnimal);
