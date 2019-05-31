@@ -8,27 +8,40 @@ export class AnimalsService {
 
   }
 
-   private Root_URL = "https://localhost:5001/api/v1/";
+  private Root_URL = "https://localhost:5001/api/v1/";
+  public IMG_URL = "https://i.imgur.com/"
 
-  GetAnimalsList(Sort: string, Order: string, Page: Number, Length: Number, dir: string, ConversationStatus: string) {
+  GetAnimalsList(Sort: string, Order: string, family: string, Page: Number, Length: Number, dir: string, ConversationStatus: string) {
 
-    return this.http.get<RootObject>(`${this.Root_URL}/animals?length=${length}&sort=${Sort}&dir=${dir}&conservationstatus=${ConversationStatus}&Order=${Order}`)
+    console.log(`${this.Root_URL}animals?family=${family}&length=${Length}&page=${Page}&sort=${Sort}&dir=${dir}&conservationstatus=${ConversationStatus}&order=${Order}`)
+    return this.http.get<IRootObject>(`${this.Root_URL}animals?family=${family}&?length=${Length}&page=${Page}&sort=${Sort}&dir=${dir}&conservationstatus=${ConversationStatus}&order=${Order}`)
+  }
+
+  GetAnimal(id: number)
+  {
+    return this.http.get<IAnimal>(`${this.Root_URL}/animals/${id})`)
   }
 }
-  export interface RootObject {
+  export interface IAnimal {
     id: number;
     name: string;
-    family?: Family;
+    family?: IFamily;
     description: string;
     lifeSpan: number;
     conservationStatus: string;
     imageURL: string;
     familyId: number;
     order: string;
-}
-export interface Family {
+} 
+export interface IFamily {
   id: number;
   name: string;
   description: string;
 }
+export interface IRootObject {
+  amountOfAnimals: number;
+  animal: IAnimal[];
+  AmountOfPages: number;
+}
+
 

@@ -4,10 +4,10 @@ import { DataService } from '../services/data.service';
 
 @Component({
   selector: 'app-movies',
-  templateUrl: './movies.component.html',
-  styleUrls: ['./movies.component.css']
+  templateUrl: './MovieList.component.html',
+  styleUrls: ['./MovieList.component.css']
 })
-export class MoviesComponent implements OnInit {
+export class movieListComponent implements OnInit {
   constructor(private svc: MoviesService, private dataSvc: DataService) {
     this.SelectedOption = "popularity";
     this.SelectedOrder = "desc";
@@ -153,7 +153,6 @@ SortOnPopularity() {
   this.SearchMovies();
 }
 
-//TODO,  laten omdraaien wanneer nodig.
 ChangeOrder() {
   if (this.SelectedOrder == "asc") {
     this.SelectedOrder = "desc";

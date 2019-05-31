@@ -32,6 +32,13 @@
                 <span class='glyphicon glyphicon-th-list'></span> Movies
               </a>
             </li>
+
+            <li [routerLinkActive]='["link-active"]'>
+              <a [routerLink]='["/animals/"]' (click)='collapse()'>
+                <span class='glyphicon glyphicon-th-list'></span> Animals
+              </a>
+            </li>
+
           </ul>
         </div>
     </div>

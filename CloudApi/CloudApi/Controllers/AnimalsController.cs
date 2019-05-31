@@ -19,14 +19,26 @@ namespace CloudApi.Controllers
             this.context = context;
         }
         [HttpGet]
-        public List<Animal> GetAllAnimals(string conservationStatus, string order,string sort, int length = 2, string dir = "asc" ,int? page = 0)
+        //public List<Animal> GetAllAnimals(string conservationStatus, string order,string family ,string sort, int length = 5 , string dir = "asc" ,int? page = 0)
+        public AnimalList GetAllAnimals(string conservationStatus, string order,string family ,string sort, int length, string dir = "asc" ,int? page = 0)
         {
-            IQueryable<Animal> query = context.Animals;
-
-            if (!string.IsNullOrWhiteSpace(conservationStatus))
+            if (length == 0)
+            {
+                length = 5;
+            }
+            IQueryable<Animal> query = context.Animals.Include(d => d.Family);
+            AnimalList Animal = new AnimalList();
+            Animal.Animal = query.ToArray();
+            Animal.AmountOfAnimals = Animal.Animal.Length;
+            double res = (double)Animal.AmountOfAnimals / (double)length;
+            Animal.AmountOfPages = (int)Math.Ceiling(Convert.ToDouble(res));
+            if (!string.IsNullOrWhiteSpace(conservationStatus) && conservationStatus != "All")
                 query = query.Where(d => d.ConservationStatus == conservationStatus);
-            if (!string.IsNullOrWhiteSpace(order))
+            if (!string.IsNullOrWhiteSpace(order) && order != "All")
                 query = query.Where(d => d.Order == order);
+            if (!string.IsNullOrWhiteSpace(order) && family != "All")
+                query = query.Where(d => d.Family.Name == family);
+
 
             if (!string.IsNullOrWhiteSpace(sort))
             {
@@ -44,14 +56,29 @@ namespace CloudApi.Controllers
                         else if (dir == "desc")
                             query = query.OrderByDescending(d => d.Order);
                         break;
+                    case "family":
+                        if (dir == "asc")
+                            query = query.OrderBy(d => d.FamilyId);
+                        else if (dir == "desc")
+                            query = query.OrderByDescending(d => d.FamilyId);
+                        break;
+                    case "name":
+                        if (dir == "asc")
+                            query = query.OrderBy(d => d.Name);
+                        else if (dir == "desc")
+                            query = query.OrderByDescending(d => d.Name);
+                        break;
                 }
             }
                 if (page.HasValue)
                 query = query.Skip(page.Value * length);
-            query = query.Take(length);
+            query = query.Take(length);    
+            
+            Animal.Animal = query.ToArray();
+            return Animal;
+            //return query.ToList();
 
 
-            return query.ToList();
         }
         [HttpPost]
         public IActionResult CreateAnimal([FromBody] Animal newAnimal)

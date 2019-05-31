@@ -1,3 +1,37 @@
-<p>
-  animals-list works!
-</p>
+<p> List of Animals</p>
+<div class="example-container">
+  <br />
+  <label>Family: </label>
+  <select [(ngModel)]="CurrentFamilySelection" (ngModelChange)="ChangeSelection()">
+    <option value={{CurrentFamilySelection}} *ngFor="let selection of SelectionsFamily">{{selection}}</option>
+  </select>
+  <label>Order: </label>
+  <select [(ngModel)]="CurrentOrder" (ngModelChange)="ChangeSelection()">
+    <option value={{CurrentOrder}} *ngFor="let selection of SelectionsOrder">{{selection}}</option>
+  </select>
+  <label>Conservation Status: </label>
+  <select [(ngModel)]="CurrentStatus" (ngModelChange)="ChangeSelection()">
+    <option value={{CurrentStatus}} *ngFor="let selection of SelectionsStatus">{{selection}}</option>
+  </select>
+  <br />
+</div>
+  <br />
+  <br />
+  <table>
+    <tr>
+      <th><button class="btn"> </button></th>
+      <th><button class="btn" (click)="ChangeOrder()">#</button></th>
+      <th><button class="btn" (click)="SortOnName()">Name</button></th>
+      <th><button class="btn" (click)="SortOnFamily()">Family </button></th>
+      <th><button class="btn" (click)="SortOnOrder()">Order </button></th>
+    </tr>
+    <tr *ngFor="let animal of AnimalList;let i=index">
+      <th><button class="btn" routerLink="/animal/{{animal.id}}" (click)="GetMovie(movie)"><img src="{{IMG_URL + animal.imageURL}}" /></button></th>
+      <th><button class="btn" routerLink="/animal/{{animal.id}}" (click)="GetMovie(movie)">{{i + 1 + (CurrentPage)*5 }}</button></th>
+      <th><button class="btn" routerLink="/animal/{{animal.id}}" (click)="GetMovie(movie)">{{animal.name}}</button></th>
+      <th><button class="btn" routerLink="/animal/{{animal.id}}" (click)="GetMovie(movie)">{{animal.family.name}}</button></th>
+      <th><button class="btn" routerLink="/animal/{{animal.id}}" (click)="GetMovie(movie)">{{animal.order}}</button></th>
+      <th><button class="btn" routerLink="/animal/{{animal.id}}" (click)="GetMovie(movie)">{{animal.conservationstatus}}</button></th>
+    </tr>
+  </table>
+      

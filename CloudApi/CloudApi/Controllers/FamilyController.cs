@@ -19,9 +19,10 @@ namespace CloudApi.Controllers
             this.context = context;
         }
         [HttpGet]
-        public List<Family> GetAllFamilies()
+        public Array GetAllFamilies()
+        //public List<Family> GetAllFamilies()
         {
-            return context.Families.ToList();
+            return context.Families.ToArray();
         }
         [HttpPost]
         public IActionResult CreateFamily([FromBody] Family newFamily)
