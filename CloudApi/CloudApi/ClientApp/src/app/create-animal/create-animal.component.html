@@ -1,0 +1,17 @@
+Name:<br />
+<input type="submit" value="Submit">
+Family:
+<br />
+<input type="submit" value="Submit">
+Life Span:<br />
+<input type="submit" value="Submit">
+Order:<br />
+<input type="submit" value="Submit">
+Conservation Status:
+<select [(ngModel)]="CurrentOrder" (ngModelChange)="ChangeSelection()">
+  <option value={{selection}} *ngFor="let selection of SelectionsOrder">{{selection}}</option>
+</select>
+Description:
+<textarea rows="20" cols="100">
+
+</textarea>

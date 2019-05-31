@@ -14,15 +14,16 @@ export class AnimalsListComponent implements OnInit {
 
   ngOnInit()
   {
-    this.IMG_URL = this.svc.IMG_URL;
     this.SearchAnimals()
+    this.IMG_URL = this.svc.IMG_URL;
+
   }
   IMG_URL: string;
   CurrentFamilySelection: string = "All";
   Sort: string = "name";
   Order: string = "";
   Family: string = "";
-  CurrentPage: number = 1;
+  CurrentPage: number = 0;
   PageLength: number = 500;
   SortDir: string = "asc";
   ConversationStatus: string = "";
@@ -30,7 +31,6 @@ export class AnimalsListComponent implements OnInit {
   CurrentOrder : string = "All"
   AnimalList: IAnimal[];
   Animal: IAnimal;
-  HasMatch: boolean;
   SelectionsFamily: string[] = ["All", "Felidae", "Canidae", "Elephantidae"]
   SelectionsOrder: string[] = ["All", "Carnivora", "Proboscidea"]
   SelectionsStatus: string[] = ["All", "Domesticated", "Not Endangered", "Endangered","Vulnerable"]
@@ -39,9 +39,12 @@ export class AnimalsListComponent implements OnInit {
   amountOfAnimals: number;
   SearchAnimals()
   {
-    this.svc.GetAnimalsList(this.Sort, this.Order, this.CurrentFamilySelection, this.CurrentPage = 0, this.PageLength, this.SortDir, this.ConversationStatus).subscribe((result =>
+    this.svc.GetAnimalsList(this.Sort, this.CurrentOrder, this.CurrentFamilySelection, this.CurrentPage = 0, this.PageLength, this.SortDir, this.CurrentStatus).subscribe((result =>
     {
-      console.table(result)
+      console.log(this.CurrentOrder)
+      console.log(this.CurrentFamilySelection)
+      console.log(this.CurrentStatus +"cs" )
+      console.log(result)
       this.AnimalList = result.animal
     }))
   }
@@ -60,7 +63,7 @@ export class AnimalsListComponent implements OnInit {
     else {
       this.Sort = "family";
     }
-    this.SearchAnimals()
+ 
   }
   SortOnOrder() {
     if (this.Sort == "order") {
@@ -69,7 +72,7 @@ export class AnimalsListComponent implements OnInit {
     else {
       this.Sort = "order";
     }
-    this.SearchAnimals()
+  
   }
   SortOnName() {
     if (this.Sort == "name") {
@@ -78,7 +81,7 @@ export class AnimalsListComponent implements OnInit {
     else {
       this.Sort = "name";
     }
-    this.SearchAnimals()
+ 
   }
   SortOnConservation() {
     if (this.Sort == "conservationstatus") {
@@ -87,24 +90,31 @@ export class AnimalsListComponent implements OnInit {
     else {
       this.Sort = "conservationstatus";
     }
-    this.SearchAnimals()
+    
   }
   ChangeOrder()
-  { 
-    if(this.SortDir = "asc")
-      {
+  {
+    console.log("start" + this.SortDir)
+    if(this.SortDir == "asc")
+    {
+      console.log("todesc")
       this.SortDir = "desc"
     }
     else {
       this.SortDir = "asc"
+      console.log("toassc")
     }
     this.SearchAnimals()
   }
   ChangePage() {
-    this.CurrentPage = -1;
+    this.CurrentPage = 0;
     this.SearchAnimals()
+
   }
-}
+  GetAnimal(animal: IAnimal) {
+    this.svc.Animal = animal;
+  }
+} 
 
 
 

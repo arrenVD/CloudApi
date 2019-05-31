@@ -1,3 +1,17 @@
-<p>
-  animal works!
-</p>
+<div style="margin-top:10px">
+  <div class="card" style="width: 25rem;float:right;padding: 10px;margin-right:200px;">
+    <img class="card-img-top" src="{{url_imgRoot}}{{Animal.imageURL}}" alt="Card image cap">
+  </div>
+
+  <div class="card" style="width: 70rem;padding: 10px;display: inline-block;margin-left:50px;">
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">Family: {{Animal.family.name}}/10 </li>
+      <li class="list-group-item">Life span: {{Animal.lifeSpan}}</li>
+      <li class="list-group-item">Order: {{Animal.order}}</li>
+    </ul>
+    <div class="card-body">
+      <h5 class="card-title"><b style="font-size:30px">{{Animal.name}}</b></h5>
+      <p class="card-text">{{Animal.description}}</p>
+    </div>
+  </div>
+</div>

@@ -24,7 +24,7 @@ namespace CloudApi.Controllers
         {
             if (length == 0)
             {
-                length = 5;
+                length = 500;
             }
             IQueryable<Animal> query = context.Animals.Include(d => d.Family);
             AnimalList Animal = new AnimalList();

@@ -10,16 +10,18 @@ export class AnimalsService {
 
   private Root_URL = "https://localhost:5001/api/v1/";
   public IMG_URL = "https://i.imgur.com/"
+  public Animal: IAnimal;
 
-  GetAnimalsList(Sort: string, Order: string, family: string, Page: Number, Length: Number, dir: string, ConversationStatus: string) {
-
+  GetAnimalsList(Sort: string, Order: string, family: string, Page: Number, Length: Number, dir: string, ConversationStatus: string)
+  {
     console.log(`${this.Root_URL}animals?family=${family}&length=${Length}&page=${Page}&sort=${Sort}&dir=${dir}&conservationstatus=${ConversationStatus}&order=${Order}`)
     return this.http.get<IRootObject>(`${this.Root_URL}animals?family=${family}&?length=${Length}&page=${Page}&sort=${Sort}&dir=${dir}&conservationstatus=${ConversationStatus}&order=${Order}`)
   }
 
   GetAnimal(id: number)
   {
-    return this.http.get<IAnimal>(`${this.Root_URL}/animals/${id})`)
+    console.log(`${this.Root_URL}animals/${id}`)
+    return this.http.get<IAnimal>(`${this.Root_URL}animals/${id}`)
   }
 }
   export interface IAnimal {

@@ -17,6 +17,7 @@ import { DataService } from './services/data.service';
 import { AnimalsListComponent } from './animals-list/animals-list.component';
 import { AnimalComponent } from './animal/animal.component';
 import { AnimalsService } from './services/animals.service';
+import { CreateAnimalComponent } from './create-animal/create-animal.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { AnimalsService } from './services/animals.service';
     MovieComponent,
     AnimalsListComponent,
     AnimalComponent,
+    CreateAnimalComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -42,7 +44,8 @@ import { AnimalsService } from './services/animals.service';
       { path: 'movies', component: movieListComponent },
       { path: 'movies/:id', component: MovieComponent },
       { path: 'animals', component: AnimalsListComponent },
-      { path: 'animals/:id', component: AnimalComponent },
+      { path: 'animal/:id', component: AnimalComponent },
+      { path: 'animals/create', component: AnimalComponent },
       //{ path: 'families/', component: MovieComponent },
      // { path: 'families/:id', component: MovieComponent },
     ])
