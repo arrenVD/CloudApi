@@ -30,7 +30,7 @@
     <th><button class="btn" (click)="SortOnConservation()">Conservation Status </button></th>
   </tr>
   <tr *ngFor="let animal of AnimalList;let i=index">
-    <th><button class="btn" routerLink="/animal/{{animal.id}}" (click)="GetAnimal(animal)"><img src="{{IMG_URL + animal.imageURL}}" /></button></th>
+    <th><button class="btn" routerLink="/animal/{{animal.id}}" (click)="GetAnimal(animal)"><img src="{{animal.imageURL}}" /></button></th>
     <th><button class="btn" routerLink="/animal/{{animal.id}}" (click)="GetAnimal(animal)">{{i + 1 + (CurrentPage)*5 }}</button></th>
     <th><button class="btn" routerLink="/animal/{{animal.id}}" (click)="GetAnimal(animal)">{{animal.name}}</button></th>
     <th><button class="btn" routerLink="/animal/{{animal.id}}" (click)="GetAnimal(animal)">{{animal.family.name}}</button></th>
