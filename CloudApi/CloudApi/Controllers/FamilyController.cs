@@ -6,10 +6,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using CloudApi.Model;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CloudApi.Controllers
 {
     [Route("api/v1/families")]
+    [Authorize("read:families")]
     [ApiController]
     public class FamilyController : Controller
     {
@@ -18,7 +20,7 @@ namespace CloudApi.Controllers
         {
             this.context = context;
         }
-        [HttpGet]
+       // [HttpGet] //depricated for API, used internally
         public Family GetAllFamilies(string name)
         //public List<Family> GetAllFamilies()
         {

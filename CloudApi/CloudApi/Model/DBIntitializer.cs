@@ -45,7 +45,7 @@ namespace CloudApi.Model
                     "for its ability to hunt rodents. About 60 cat breeds are recognized by various cat registries.",
                     LifeSpan = 15.1,
                     ConservationStatus = "Domesticated",
-                    ImageURL = "UBVLzjA.jpg",
+                    ImageURL = "https://imgur.com/UBVLzjA.jpg",
                     Order = "Carnivora"
                 };
 
@@ -60,7 +60,7 @@ namespace CloudApi.Model
                     "variety of different habitats, unlike other various cat species.",
                     LifeSpan = 10.5,
                     ConservationStatus ="Not Endangered",
-                    ImageURL = "NOMmk9s.jpg",
+                    ImageURL = "https://imgur.com/NOMmk9s.jpg",
                     Order = "Carnivora"
                 };
                 var animal3 = new Animal()
@@ -76,7 +76,7 @@ namespace CloudApi.Model
                     "mammoths and straight-tusked elephants.",
                     LifeSpan = 65,
                     ConservationStatus = "Endangered",
-                    ImageURL = "adYfMQA.jpg",
+                    ImageURL = "https://imgur.com/adYfMQA.jpg",
                     Order = "Proboscidea"
                 };
                 var animal4 = new Animal()
@@ -91,7 +91,7 @@ namespace CloudApi.Model
                     "and leave their mother's home range to establish their own.",
                     LifeSpan = 17,
                     ConservationStatus = "Endangered",
-                    ImageURL = "u3Miu5U.jpg",
+                    ImageURL = "https://imgur.com/u3Miu5U.jpg",
                     Order = "Carnivora"
                 };
                 var animal5 = new Animal()
@@ -107,7 +107,7 @@ namespace CloudApi.Model
                     "humans, although the species typically does not.",
                     LifeSpan = 12,
                     ConservationStatus = "Vulnerable",
-                    ImageURL = "eAP3wll.jpg",
+                    ImageURL = "https://imgur.com/eAP3wll.jpg",
                     Order = "Carnivora"
                 };
                 var animal6 = new Animal()
@@ -124,7 +124,7 @@ namespace CloudApi.Model
                     "and their body parts are smuggled in the wildlife trade for medicinal practices and decoration.",
                     LifeSpan = 15.5,
                     ConservationStatus = "Vulnerable",
-                    ImageURL = "rWfQT43.jpg",
+                    ImageURL = "https://imgur.com/rWfQT43.jpg",
                     Order = "Carnivora"
                 };
                 var animal7 = new Animal()
@@ -139,7 +139,7 @@ namespace CloudApi.Model
                     " taken steps to improve cheetah conservation measures.",
                     LifeSpan = 14.5,
                     ConservationStatus = "Vulnerable",
-                    ImageURL = "GhgBnWM.jpg",
+                    ImageURL = "https://imgur.com/GhgBnWM.jpg",
                     Order = "Carnivora"
                 };
                 var animal8 = new Animal()
@@ -153,7 +153,7 @@ namespace CloudApi.Model
                     "members of the genus Lynx.",
                     LifeSpan = 7,
                     ConservationStatus = "Not Endangered",
-                    ImageURL = "09Nc4Vk.jpg",
+                    ImageURL = "https://imgur.com/09Nc4Vk.jpg",
                     Order = "Carnivora"
                 };
                 context.Animals.Add(animal);

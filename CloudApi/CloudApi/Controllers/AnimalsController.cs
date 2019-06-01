@@ -6,10 +6,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using CloudApi.Model;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CloudApi.Controllers
 {
     [Route("api/v1/animals")]
+    [Authorize("read:animals")]
     [ApiController]
     public class AnimalsController : Controller
     {
@@ -22,16 +24,17 @@ namespace CloudApi.Controllers
         //public List<Animal> GetAllAnimals(string conservationStatus, string order,string family ,string sort, int length = 5 , string dir = "asc" ,int? page = 0)
         public AnimalList GetAllAnimals(string conservationStatus, string order, string family, string sort, int length, string dir = "asc", int? page = 0)
         {
+            //TODO: eventueel paginas in frontend toevoegen, momenteel geen prioriteit. length = 500 is een snelle "workaround"
             if (length == 0)
             {
                 length = 500;
             }
-            IQueryable<Animal> query = context.Animals.Include(d => d.Family);
-            AnimalList Animal = new AnimalList();
-            Animal.Animal = query.ToArray();
-            Animal.AmountOfAnimals = Animal.Animal.Length;
-            double res = (double)Animal.AmountOfAnimals / (double)length;
-            Animal.AmountOfPages = (int)Math.Ceiling(Convert.ToDouble(res));
+            IQueryable<Animal> query = context.Animals.Include(a=> a.Family);
+            AnimalList AnimalList = new AnimalList();
+            AnimalList.Animal = query.ToArray();
+            AnimalList.AmountOfAnimals = AnimalList.Animal.Length;
+            double res = (double)AnimalList.AmountOfAnimals / (double)length;
+            AnimalList.AmountOfPages = (int)Math.Ceiling(Convert.ToDouble(res));
             if (!string.IsNullOrWhiteSpace(conservationStatus) && conservationStatus != "All")
                 query = query.Where(d => d.ConservationStatus == conservationStatus);
             if (!string.IsNullOrWhiteSpace(order) && order != "All")
@@ -46,27 +49,27 @@ namespace CloudApi.Controllers
                 {
                     case "conservationstatus":
                         if (dir == "asc")
-                            query = query.OrderBy(d => d.ConservationStatus);
+                            query = query.OrderBy(a => a.ConservationStatus);
                         else if (dir == "desc")
-                            query = query.OrderByDescending(d => d.ConservationStatus);
+                            query = query.OrderByDescending(a => a.ConservationStatus);
                         break;
                     case "order":
                         if (dir == "asc")
                             query = query.OrderBy(d => d.Order);
                         else if (dir == "desc")
-                            query = query.OrderByDescending(d => d.Order);
+                            query = query.OrderByDescending(a => a.Order);
                         break;
                     case "family":
                         if (dir == "asc")
-                            query = query.OrderBy(d => d.FamilyId);
+                            query = query.OrderBy(a => a.FamilyId);
                         else if (dir == "desc")
-                            query = query.OrderByDescending(d => d.FamilyId);
+                            query = query.OrderByDescending(a => a.FamilyId);
                         break;
                     case "name":
                         if (dir == "asc")
-                            query = query.OrderBy(d => d.Name);
+                            query = query.OrderBy(a => a.Name);
                         else if (dir == "desc")
-                            query = query.OrderByDescending(d => d.Name);
+                            query = query.OrderByDescending(a => a.Name);
                         break;
                 }
             }
@@ -74,8 +77,8 @@ namespace CloudApi.Controllers
                 query = query.Skip(page.Value * length);
             query = query.Take(length);
 
-            Animal.Animal = query.ToArray();
-            return Animal;
+            AnimalList.Animal = query.ToArray();
+            return AnimalList;
             //return query.ToList();
 
 
@@ -84,20 +87,6 @@ namespace CloudApi.Controllers
         public IActionResult CreateAnimal([FromBody] Animal newAnimal)
         {
             Animal tempAnimal = new Animal();
-            /*Family tempFamily = new Family();
-            Animal tempAnimal = new Animal();
-            tempAnimal.ConservationStatus = newAnimal.ConservationStatus;
-            tempAnimal.Description = newAnimal.Description;
-            tempAnimal.ImageURL = newAnimal.ImageURL;
-            tempAnimal.LifeSpan = newAnimal.LifeSpan;
-            tempAnimal.Name = newAnimal.Name;
-            tempAnimal.Order = newAnimal.Order;
-            tempFamily.Description = newAnimal.Family.Description;
-            tempFamily.Name = newAnimal.Family.Name;
-            tempAnimal.Family = tempFamily;
-            context.Animals.Add(tempAnimal);
-            context.SaveChanges();
-            return Created("", tempAnimal);*/
             string tempname = newAnimal.Family.Name;
 
 
