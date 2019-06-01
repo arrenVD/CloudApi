@@ -15,7 +15,6 @@ export class AnimalsService {
   public IMG_URL = "https://i.imgur.com/"
   public Animal: IAnimal;
 
-  Header 
 
   GetFamily(Name: string) {
     return this.http.get<IFamily>(`${this.Root_URL}families?name=${Name}`)
