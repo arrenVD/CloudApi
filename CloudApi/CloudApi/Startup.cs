@@ -8,6 +8,9 @@ using Microsoft.Extensions.DependencyInjection;
 using CloudApi;
 using CloudApi.Model;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using WebAPIApplication;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CloudApi
 {
@@ -23,6 +26,8 @@ namespace CloudApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            string domain = $"https://{Configuration["Auth0:Domain"]}/";
+
             services.AddDbContext<LibraryContext>(
                options => options.UseSqlServer(
                    Configuration.GetConnectionString("DefaultConnection")
@@ -35,6 +40,22 @@ namespace CloudApi
             {
                 configuration.RootPath = "ClientApp/dist";
             });
+            services.AddAuthentication(options => {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme; }
+            ).AddJwtBearer(options =>
+            {
+                options.Authority = "domain";
+                options.Audience = Configuration["Auth0:ApiIdentifier"];
+                options.RequireHttpsMetadata = false ;
+            });
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("read:animals", policy => policy.Requirements.Add(new HasScopeRequirement("read:animals", domain)));
+                options.AddPolicy("read:families", policy => policy.Requirements.Add(new HasScopeRequirement("read:families", domain)));
+            });
+            services.AddSingleton<IAuthorizationHandler, HasScopeHandler>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -54,12 +75,17 @@ namespace CloudApi
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
 
+            app.UseAuthentication();
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller}/{action=Index}/{id?}");
+                    template: "{controller=Home}/{action=Index}/{id?}");
+                //template: "{controller}/{action=Index}/{id?}");
             });
+
+        
 
             app.UseSpa(spa =>
             {

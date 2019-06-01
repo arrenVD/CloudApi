@@ -7,8 +7,6 @@ import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
-import { CounterComponent } from './counter/counter.component';
-import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { MoviesService } from './services/movies.service';
 import { movieListComponent } from './movieList/movieList.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -18,42 +16,41 @@ import { AnimalsListComponent } from './animals-list/animals-list.component';
 import { AnimalComponent } from './animal/animal.component';
 import { AnimalsService } from './services/animals.service';
 import { CreateAnimalComponent } from './create-animal/create-animal.component';
+import { LoginComponent } from './login/login.component';
+import { environment } from '../environments/environment';
+import { AuthService } from './services/auth.service';
+import { CallbackComponent } from './callback/callback.component';
+import { ROUTES } from './app.routes';
+import { HttpModule } from '@angular/http';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     NavMenuComponent,
     HomeComponent,
-    CounterComponent,
-    FetchDataComponent,
     movieListComponent,
     MovieComponent,
     AnimalsListComponent,
     AnimalComponent,
     CreateAnimalComponent,
+    LoginComponent,
+    CallbackComponent
+
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     BrowserAnimationsModule,
+    HttpModule,
     FormsModule,
-    RouterModule.forRoot([
-      { path: '', component: HomeComponent, pathMatch: 'full' },
-      { path: 'counter', component: CounterComponent },
-      { path: 'fetch-data', component: FetchDataComponent },
-      { path: 'movies', component: movieListComponent },
-      { path: 'movies/:id', component: MovieComponent },
-      { path: 'animals', component: AnimalsListComponent },
-      { path: 'animal/create', component: CreateAnimalComponent },
-      { path: 'animal/:id', component: AnimalComponent },
-      //{ path: 'families/', component: MovieComponent },
-     // { path: 'families/:id', component: MovieComponent },
-    ])
+    RouterModule.forRoot(ROUTES)
   ],
   providers: [
     MoviesService,
     DataService,
-    AnimalsService
+    AnimalsService,
+    AuthService
 
   ],
   bootstrap: [AppComponent]

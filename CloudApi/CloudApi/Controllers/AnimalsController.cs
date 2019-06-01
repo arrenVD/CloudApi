@@ -6,10 +6,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using CloudApi.Model;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CloudApi.Controllers
 {
     [Route("api/v1/animals")]
+    [Authorize("read:animals")]
     [ApiController]
     public class AnimalsController : Controller
     {
