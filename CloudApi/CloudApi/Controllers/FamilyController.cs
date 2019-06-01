@@ -20,7 +20,7 @@ namespace CloudApi.Controllers
         {
             this.context = context;
         }
-        [HttpGet]
+       // [HttpGet] //depricated for API, used internally
         public Family GetAllFamilies(string name)
         //public List<Family> GetAllFamilies()
         {

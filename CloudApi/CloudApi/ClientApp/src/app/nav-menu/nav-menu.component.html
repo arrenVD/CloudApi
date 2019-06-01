@@ -1,30 +1,35 @@
 <div class='main-nav'>
-    <div class='navbar navbar-inverse'>
-        <div class='navbar-header'>
-            <button type='button' class='navbar-toggle' data-toggle='collapse' data-target='.navbar-collapse' [attr.aria-expanded]='isExpanded' (click)='toggle()'>
-                <span class='sr-only'>Toggle navigation</span>
-                <span class='icon-bar'></span>
-                <span class='icon-bar'></span>
-                <span class='icon-bar'></span>
-            </button>
-            <a class='navbar-brand' [routerLink]='["/"]'>CloudApi</a>
-        </div>
-        <div class='clearfix'></div>
-        <div class='navbar-collapse collapse' [ngClass]='{ "in": isExpanded }'>
-          <ul class='nav navbar-nav'>
-            <li [routerLinkActive]='["link-active"]'>
-              <a [routerLink]='["/movies/"]' (click)='collapse()'>
-                <span class='glyphicon glyphicon-th-list'></span> Movies
-              </a>
-            </li>
-
-            <li [routerLinkActive]='["link-active"]'>
-              <a [routerLink]='["/animals/"]' (click)='collapse()'>
-                <span class='glyphicon glyphicon-th-list'></span> Animals
-              </a>
-            </li>
-
-          </ul>
-        </div>
+  <div class='navbar navbar-inverse'>
+    <div class='navbar-header'>
+      <button type='button' class='navbar-toggle' data-toggle='collapse' data-target='.navbar-collapse' [attr.aria-expanded]='isExpanded' (click)='toggle()'>
+        <span class='sr-only'>Toggle navigation</span>
+        <span class='icon-bar'></span>
+        <span class='icon-bar'></span>
+        <span class='icon-bar'></span>
+      </button>
+      <a class='navbar-brand' [routerLink]='["/"]'>CloudApi</a>
     </div>
+    <div class='clearfix'></div>
+    <div class='navbar-collapse collapse' [ngClass]='{ "in": isExpanded }'>
+      <ul class='nav navbar-nav'>
+        <li [routerLinkActive]='["link-active"]'>
+          <a [routerLink]='["/movies/"]' (click)='collapse()'>
+            <span class='glyphicon glyphicon-th-list'></span> Movies
+          </a>
+        </li>
+
+        <li [routerLinkActive]='["link-active"]' *ngIf="auth.isAuthenticated() && auth.userHasScopes(['write:animals'])">
+          <a [routerLink]='["/animals/"]' (click)='collapse()'>
+            <span class='glyphicon glyphicon-th-list'></span> Animals
+          </a>
+        </li>
+        <li [routerLinkActive]='["link-active"]' *ngIf="auth.isAuthenticated() && auth.userHasScopes(['write:animals'])">
+          <a [routerLink]='["/profile/"]' (click)='collapse()'>
+            <span class='glyphicon glyphicon-th-list'></span> Profile
+          </a>
+        </li>
+
+      </ul>
+    </div>
+  </div>
 </div>

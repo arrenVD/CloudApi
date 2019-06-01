@@ -22,6 +22,9 @@ import { AuthService } from './services/auth.service';
 import { CallbackComponent } from './callback/callback.component';
 import { ROUTES } from './app.routes';
 import { HttpModule } from '@angular/http';
+import { AuthGuardService } from './services/auth-guard.service';
+import { ScopeGuardService } from './services/scope-guard.service';
+import { ProfileComponent } from './profile/profile.component';
 
 
 @NgModule({
@@ -35,7 +38,8 @@ import { HttpModule } from '@angular/http';
     AnimalComponent,
     CreateAnimalComponent,
     LoginComponent,
-    CallbackComponent
+    CallbackComponent,
+    ProfileComponent
 
   ],
   imports: [
@@ -50,7 +54,9 @@ import { HttpModule } from '@angular/http';
     MoviesService,
     DataService,
     AnimalsService,
-    AuthService
+    AuthService,
+    AuthGuardService,
+    ScopeGuardService
 
   ],
   bootstrap: [AppComponent]

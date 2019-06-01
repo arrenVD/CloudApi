@@ -10,19 +10,27 @@ export class AuthService {
   private _accessToken: string;
   private _expiresAt: number;
 
+  userProfile: any;
+  requestedScopes: string = 'openid profile write:animals read:animals read:families';
+
   auth0 = new auth0.WebAuth({
     clientID: AUTH_CONFIG.clientID,
     domain: AUTH_CONFIG.domain,
     responseType: 'token id_token',
     redirectUri: AUTH_CONFIG.callbackURL,
-    audience: 'https://localhost:5001/api/v1',
-    scope: 'openid profile read:messages'
+    audience: AUTH_CONFIG.apiUrl,
+    scope: this.requestedScopes
   });
+
+  private _scopes: string;
+
+  
 
   constructor(public router: Router) {
     this._idToken = '';
     this._accessToken = '';
     this._expiresAt = 0;
+    this._scopes = '';
   }
 
   get accessToken(): string {
@@ -50,13 +58,36 @@ export class AuthService {
     });
   }
 
+
+  public getProfile(cb): void {
+    if (!this._accessToken) {
+      throw new Error('Access token must exist to fetch profile');
+    }
+
+    const self = this;
+    this.auth0.client.userInfo(this._accessToken, (err, profile) => {
+      if (profile) {
+        self.userProfile = profile;
+      }
+      cb(err, profile);
+    });
+  }
+
   private localLogin(authResult): void {
     // Set the time that the access token will expire at
     const expiresAt = (authResult.expiresIn * 1000) + Date.now();
+
+    // If there is a value on the `scope` param from the authResult,
+    // use it to set scopes in the session for the user. Otherwise
+    // use the scopes as requested. If no scopes were requested,
+    // set it to nothing
+    const scopes = authResult.scope || this.requestedScopes || '';
     this._accessToken = authResult.accessToken;
     this._idToken = authResult.idToken;
     this._expiresAt = expiresAt;
+    this._scopes = JSON.stringify(scopes);
   }
+
 
   public renewTokens(): void {
     this.auth0.checkSession({}, (err, authResult) => {
@@ -68,7 +99,6 @@ export class AuthService {
       }
     });
   }
-
   public logout(): void {
     // Remove tokens and expiry time
     this._accessToken = '';
@@ -85,5 +115,8 @@ export class AuthService {
     // access token's expiry time
     return this._accessToken && Date.now() < this._expiresAt;
   }
-
+  public userHasScopes(scopes: Array<string>): boolean {
+    const grantedScopes = JSON.parse(this._scopes).split(' ');
+    return scopes.every(scope => grantedScopes.includes(scope));
+  }
 }

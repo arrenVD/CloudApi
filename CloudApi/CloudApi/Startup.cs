@@ -45,14 +45,22 @@ namespace CloudApi
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme; }
             ).AddJwtBearer(options =>
             {
-                options.Authority = "domain";
-                options.Audience = Configuration["Auth0:ApiIdentifier"];
+                options.Authority = "https://dev-d0xsb9au.eu.auth0.com/";
+                options.Audience = "https://localhost:5001/api/v1";
                 options.RequireHttpsMetadata = false ;
             });
 
             services.AddAuthorization(options =>
             {
+                options.AddPolicy("read:animals", policy => policy.Requirements.Add(new HasScopeRequirement("write:animals", domain)));
+            });
+
+            services.AddAuthorization(options =>
+            {
                 options.AddPolicy("read:animals", policy => policy.Requirements.Add(new HasScopeRequirement("read:animals", domain)));
+            });
+            services.AddAuthorization(options =>
+            {
                 options.AddPolicy("read:families", policy => policy.Requirements.Add(new HasScopeRequirement("read:families", domain)));
             });
             services.AddSingleton<IAuthorizationHandler, HasScopeHandler>();
@@ -61,6 +69,7 @@ namespace CloudApi
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env,LibraryContext libContext )
         {
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -81,11 +90,10 @@ namespace CloudApi
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
-                //template: "{controller}/{action=Index}/{id?}");
+                    template: "{controller}/{action=Index}/{id?}");
+                //template: "{controller=Home}/{action=Index}/{id?}");
             });
 
-        
 
             app.UseSpa(spa =>
             {
