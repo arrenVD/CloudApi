@@ -17,7 +17,7 @@ export class AnimalsService {
 
 
   GetFamily(Name: string) {
-    return this.http.get<IFamily>(`${this.Root_URL}families?name=${Name}`)
+    return this.http.get<IFamily>(`${this.Root_URL}families?name=${Name}`, { headers: new HttpHeaders().set('Authorization', `Bearer ${this.auth.accessToken}`) }))
   }
   GetAnimalsList(Sort: string, Order: string, family: string, Page: Number, Length: Number, dir: string, ConversationStatus: string)
   {
@@ -37,7 +37,7 @@ export class AnimalsService {
     })
   }
   PostAnimal(animal: IAnimal): Observable<IAnimal>{
-    return this.http.post<IAnimal>(`${this.Root_URL}animals`, animal);
+    return this.http.post<IAnimal>(`${this.Root_URL}animals`, animal, { headers: new HttpHeaders().set('Authorization', `Bearer ${this.auth.accessToken}`) }));
   }
 }
   export interface IAnimal {

@@ -11,6 +11,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using WebAPIApplication;
 using Microsoft.AspNetCore.Authorization;
+using MySql.Data.EntityFrameworkCore;
+using MySql.Data.EntityFrameworkCore.Extensions;
 
 namespace CloudApi
 {
@@ -30,6 +32,7 @@ namespace CloudApi
 
             services.AddDbContext<LibraryContext>(
                options => options.UseSqlServer(
+                           // options.UseMySQL(
                    Configuration.GetConnectionString("DefaultConnection")
                    )
              );

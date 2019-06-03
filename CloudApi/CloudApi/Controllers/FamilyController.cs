@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace CloudApi.Controllers
 {
     [Route("api/v1/families")]
-    [Authorize("read:families")]
+    [Authorize("read:animals")]
     [ApiController]
     public class FamilyController : Controller
     {
